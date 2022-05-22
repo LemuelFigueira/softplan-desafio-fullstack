@@ -15,9 +15,12 @@ public abstract class BaseEntity {
 
     protected LocalDateTime updatedAt;
 
+    protected LocalDateTime deletedAt;
+
     @PrePersist
     private void prePersist() {
         createdAt = LocalDateTime.now();
+        deletedAt = null;
     }
 
     @PreUpdate

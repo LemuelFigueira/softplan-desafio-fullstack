@@ -8,6 +8,7 @@ import com.br.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +47,9 @@ public class UserService {
     }
 
     public void remove(Long id) {
-        userRepository.deleteById(id);
+        var user = getById(id);
+        var now = LocalDateTime.now();
+        user.setDeletedAt(now);
+        userRepository.save(user);
     }
 }
