@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  mysqldb:
+    image: mysql:8.0
+    restart: always
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    networks:
+      - spring
+    ports:
+      - 3306:3306
+networks:
+  spring:
+    driver: bridge
