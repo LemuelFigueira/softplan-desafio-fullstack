@@ -6,11 +6,14 @@ import com.br.api.mapper.UserMapper;
 import com.br.api.model.User;
 import com.br.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -22,13 +25,23 @@ public class UserService {
         return userRepository.findById(id).orElseThrow();
     }
 
-    public List<UserResponseDTO> getAll() {
-        var users = userRepository.findAll();
-        var response = new ArrayList<UserResponseDTO>();
+    public Map<String, Object> getAll(int page, int size) {
+        var pageRequest = PageRequest.of(page, size);
+        var queryUsers = userRepository.findAll(pageRequest);
 
-        users.forEach(user -> response.add(UserMapper.entityToResponse(user)));
+        var users = new ArrayList<UserResponseDTO>();
 
-        return response;
+        queryUsers.getContent().forEach(user -> users.add(UserMapper.entityToResponse(user)));
+
+        Map<String, Object> retorno = new HashMap<>();
+
+        retorno.put("users", users);
+        retorno.put("totalPages", queryUsers.getTotalPages());
+        retorno.put("totalElements", queryUsers.getTotalElements());
+        retorno.put("last", queryUsers.isLast());
+
+        return retorno;
+
     }
 
     public void save(UserRequestDTO userRequestDTO) {

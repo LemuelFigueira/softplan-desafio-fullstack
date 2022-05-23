@@ -18,7 +18,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("user")
@@ -38,8 +38,9 @@ public class UserController {
     @GetMapping("/all")
     @PreAuthorize("hasAuthority('ADMIN')")
     @SecurityRequirement(name = SecurityType.BEARER)
-    public List<UserResponseDTO> getAll() {
-        return userService.getAll();
+    public Map<String, Object> getAll(@RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+        return userService.getAll(page, size);
     }
 
     @Operation(summary = "Realiza o cadastro de um novo usuário")
