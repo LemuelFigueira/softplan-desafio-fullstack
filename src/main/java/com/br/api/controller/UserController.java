@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +36,7 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = ResponseType.ERROR, content = @Content)
     })
     @GetMapping("/all")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @SecurityRequirement(name = SecurityType.BEARER)
     public List<UserResponseDTO> getAll() {
         return userService.getAll();
@@ -57,6 +59,7 @@ public class UserController {
             @ApiResponse(responseCode = "403", description = ResponseType.NO_PERMISSION, content = @Content),
             @ApiResponse(responseCode = "500", description = ResponseType.ERROR, content = @Content)
     })
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
     @SecurityRequirement(name = SecurityType.BEARER)
     public void update(@PathVariable @NonNull Long id, @RequestBody @Validated UserRequestDTO userRequestDTO) {
@@ -69,6 +72,7 @@ public class UserController {
             @ApiResponse(responseCode = "403", description = ResponseType.NO_PERMISSION, content = @Content),
             @ApiResponse(responseCode = "500", description = ResponseType.ERROR, content = @Content)
     })
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     @SecurityRequirement(name = SecurityType.BEARER)
     public void remove(@PathVariable @NonNull Long id) {
