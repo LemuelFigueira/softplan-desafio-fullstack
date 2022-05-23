@@ -8,6 +8,7 @@ import com.br.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -26,7 +27,7 @@ public class UserService {
     }
 
     public Map<String, Object> getAll(int page, int size) {
-        var pageRequest = PageRequest.of(page, size);
+        var pageRequest = PageRequest.of(page, size, Sort.by("id").ascending());
         var queryUsers = userRepository.findAll(pageRequest);
 
         var users = new ArrayList<UserResponseDTO>();
