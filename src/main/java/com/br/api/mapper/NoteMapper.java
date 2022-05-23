@@ -2,7 +2,6 @@ package com.br.api.mapper;
 
 import com.br.api.dto.request.NoteRequestDTO;
 import com.br.api.dto.response.NoteResponseDTO;
-import com.br.api.dto.response.ProcessResponseDTO;
 import com.br.api.model.Note;
 import com.br.api.model.User;
 import com.br.api.model.Process;

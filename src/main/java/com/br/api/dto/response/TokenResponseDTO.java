@@ -1,6 +1,5 @@
 package com.br.api.dto.response;
 
-import com.br.api.enumeration.Profile;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

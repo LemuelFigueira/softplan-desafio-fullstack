@@ -3,8 +3,6 @@ package com.br.api.model;
 import com.br.api.base.BaseEntity;
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
