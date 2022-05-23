@@ -2,14 +2,30 @@ version: "3"
 
 services:
   mysqldb:
+    container_name: "mysqldb"
     image: mysql:8.0
     restart: always
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-    networks:
-      - spring
+      - MYSQL_DATABASE=primary
     ports:
       - 3306:3306
-networks:
-  spring:
-    driver: bridge
+    volumes:
+      - ./.generate:/docker-entrypoint-initdb.d
+  api:
+    container_name: "process-api"
+    restart: on-failure:3
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - DB_HOST=mysqldb
+      - DB_USER=root
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysqldb
+    links:
+      - mysqldb
+    volumes:
+      - ./:/app
