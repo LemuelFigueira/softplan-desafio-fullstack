@@ -38,7 +38,8 @@ public class UserService {
         retorno.put("users", users);
         retorno.put("totalPages", queryUsers.getTotalPages());
         retorno.put("totalElements", queryUsers.getTotalElements());
-        retorno.put("last", queryUsers.isLast());
+        retorno.put("isLast", queryUsers.isLast());
+        retorno.put("isFirst", queryUsers.isFirst());
 
         return retorno;
 
