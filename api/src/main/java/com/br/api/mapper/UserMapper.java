@@ -10,7 +10,6 @@ public final class UserMapper {
         return User.builder()
                 .name(userRequestDTO.getName())
                 .email(userRequestDTO.getEmail())
-                .password(userRequestDTO.getPassword())
                 .profile(userRequestDTO.getProfile()).build();
     }
 
