@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +36,7 @@ public class ProcessUserController {
             @ApiResponse(responseCode = "403", description = ResponseType.NO_PERMISSION, content = @Content),
             @ApiResponse(responseCode = "500", description = ResponseType.ERROR, content = @Content)
     })
+    @PreAuthorize("hasAnyAuthority('SORTER', 'ADMIN')")
     @GetMapping("all/{processId}")
     public List<ProcessUserResponseDTO> getAll(@PathVariable @NonNull Long processId) {
         return processUserService.getAllByProcessId(processId);
@@ -46,6 +48,7 @@ public class ProcessUserController {
             @ApiResponse(responseCode = "403", description = ResponseType.NO_PERMISSION, content = @Content),
             @ApiResponse(responseCode = "500", description = ResponseType.ERROR, content = @Content)
     })
+    @PreAuthorize("hasAnyAuthority('SORTER', 'ADMIN')")
     @PostMapping
     public void create(@RequestBody @Validated ProcessUserRequestDTO processUserRequestDTO) {
         processUserService.save(processUserRequestDTO);
@@ -57,6 +60,7 @@ public class ProcessUserController {
             @ApiResponse(responseCode = "403", description = ResponseType.NO_PERMISSION, content = @Content),
             @ApiResponse(responseCode = "500", description = ResponseType.ERROR, content = @Content)
     })
+    @PreAuthorize("hasAnyAuthority('SORTER', 'ADMIN')")
     @DeleteMapping("/{id}")
     public void remove(@PathVariable @NonNull Long id) {
         processUserService.remove(id);
