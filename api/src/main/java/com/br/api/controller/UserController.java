@@ -3,6 +3,7 @@ package com.br.api.controller;
 import com.br.api.constants.ResponseType;
 import com.br.api.constants.SecurityType;
 import com.br.api.dto.request.UserRequestDTO;
+import com.br.api.dto.response.UserPageableResponseDTO;
 import com.br.api.dto.response.UserResponseDTO;
 import com.br.api.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,7 +31,7 @@ public class UserController {
     @Operation(summary = "Busca todos os usuários cadastrados")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Lista de usuários", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = UserResponseDTO.class))
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = UserPageableResponseDTO.class))
             }),
             @ApiResponse(responseCode = "403", description = ResponseType.NO_PERMISSION, content = @Content),
             @ApiResponse(responseCode = "500", description = ResponseType.ERROR, content = @Content)
@@ -38,9 +39,28 @@ public class UserController {
     @GetMapping("/all")
     @PreAuthorize("hasAuthority('ADMIN')")
     @SecurityRequirement(name = SecurityType.BEARER)
-    public Map<String, Object> getAll(@RequestParam(defaultValue = "0") int page,
+    public UserPageableResponseDTO getAll(
+            @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size) {
         return userService.getAll(page, size);
+    }
+
+    @Operation(summary = "Busca todos os usuários cadastrados por nome, perfil ou email")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de usuários", content = {
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = UserPageableResponseDTO.class))
+            }),
+            @ApiResponse(responseCode = "403", description = ResponseType.NO_PERMISSION, content = @Content),
+            @ApiResponse(responseCode = "500", description = ResponseType.ERROR, content = @Content)
+    })
+    @GetMapping("/search")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @SecurityRequirement(name = SecurityType.BEARER)
+    public UserPageableResponseDTO findByAnyNameOrProfileOrEmail(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "") String query) {
+        return userService.findByAnyNameOrProfileOrEmail(query, page, size);
     }
 
     @Operation(summary = "Realiza o cadastro de um novo usuário")

@@ -1,6 +1,7 @@
 package com.br.api.service;
 
 import com.br.api.dto.request.UserRequestDTO;
+import com.br.api.dto.response.UserPageableResponseDTO;
 import com.br.api.dto.response.UserResponseDTO;
 import com.br.api.mapper.UserMapper;
 import com.br.api.model.User;
@@ -26,7 +27,29 @@ public class UserService {
         return userRepository.findById(id).orElseThrow();
     }
 
-    public Map<String, Object> getAll(int page, int size) {
+    public UserPageableResponseDTO findByAnyNameOrProfileOrEmail(String query, int page, int size) {
+        var pageRequest = PageRequest.of(page, size, Sort.by("id").ascending());
+        var queryUsers = userRepository.findByAnyNameOrProfileOrEmail(query, pageRequest);
+
+        var users = new ArrayList<UserResponseDTO>();
+
+        queryUsers.getContent().forEach(user -> users.add(UserMapper.entityToResponse(user)));
+
+        Map<String, Object> queryMap = new HashMap<>();
+
+        queryMap.put("users", users);
+        queryMap.put("totalPages", queryUsers.getTotalPages());
+        queryMap.put("totalElements", queryUsers.getTotalElements());
+        queryMap.put("isLast", queryUsers.isLast());
+        queryMap.put("isFirst", queryUsers.isFirst());
+
+        UserPageableResponseDTO response = UserMapper.pageableMapToResonse(queryMap);
+
+        return response;
+
+    }
+
+    public UserPageableResponseDTO getAll(int page, int size) {
         var pageRequest = PageRequest.of(page, size, Sort.by("id").ascending());
         var queryUsers = userRepository.findAll(pageRequest);
 
@@ -34,15 +57,17 @@ public class UserService {
 
         queryUsers.getContent().forEach(user -> users.add(UserMapper.entityToResponse(user)));
 
-        Map<String, Object> retorno = new HashMap<>();
+        Map<String, Object> queryMap = new HashMap<>();
 
-        retorno.put("users", users);
-        retorno.put("totalPages", queryUsers.getTotalPages());
-        retorno.put("totalElements", queryUsers.getTotalElements());
-        retorno.put("isLast", queryUsers.isLast());
-        retorno.put("isFirst", queryUsers.isFirst());
+        queryMap.put("users", users);
+        queryMap.put("totalPages", queryUsers.getTotalPages());
+        queryMap.put("totalElements", queryUsers.getTotalElements());
+        queryMap.put("isLast", queryUsers.isLast());
+        queryMap.put("isFirst", queryUsers.isFirst());
 
-        return retorno;
+        UserPageableResponseDTO response = UserMapper.pageableMapToResonse(queryMap);
+
+        return response;
 
     }
 
