@@ -4,7 +4,6 @@ import com.br.api.constants.ResponseType;
 import com.br.api.constants.SecurityType;
 import com.br.api.dto.request.UserRequestDTO;
 import com.br.api.dto.response.UserPageableResponseDTO;
-import com.br.api.dto.response.UserResponseDTO;
 import com.br.api.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -18,8 +17,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("user")
