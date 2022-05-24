@@ -19,6 +19,4 @@ public class UserResponseDTO {
     private String email;
 
     private Profile profile;
-
-    private String password;
 }
