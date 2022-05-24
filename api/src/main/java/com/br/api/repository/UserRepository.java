@@ -22,6 +22,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     public Page<User> findAll(Pageable pageable);
 
-    @Query(value = "select u from User u where u.name like %?1% or u.email like %?1% or u.profile like %?1%")
+    @Query(value = "select u from User u where u.deletedAt is null and (u.name like %?1% or u.email like %?1% or u.profile like %?1%)")
     public Page<User> findByAnyNameOrProfileOrEmail(@Param("query") String query, Pageable pageable);
 }
