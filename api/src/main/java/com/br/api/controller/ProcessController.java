@@ -48,7 +48,7 @@ public class ProcessController {
                 return processService.getAll();
         }
 
-        @Operation(summary = "Busca todos os usuários cadastrados por title, subtitle ou description")
+        @Operation(summary = "Busca todos os processos cadastrados por title, subtitle ou description")
         @ApiResponses(value = {
                         @ApiResponse(responseCode = "200", description = "Lista de processos", content = {
                                         @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ProcessPageableResponseDTO.class))
