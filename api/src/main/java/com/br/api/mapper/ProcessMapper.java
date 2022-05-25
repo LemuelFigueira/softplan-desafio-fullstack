@@ -1,12 +1,14 @@
 package com.br.api.mapper;
 
+import com.br.api.dto.response.ProcessPageableResponseDTO;
 import com.br.api.dto.response.ProcessResponseDTO;
 import com.br.api.model.Process;
 import com.br.api.dto.request.ProcessRequestDTO;
-import com.br.api.model.User;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public final class ProcessMapper {
 
@@ -15,7 +17,6 @@ public final class ProcessMapper {
                 .description(processRequestDTO.getDescription())
                 .subtitle(processRequestDTO.getSubtitle())
                 .title(processRequestDTO.getTitle())
-                .user(User.builder().id(processRequestDTO.getUserId()).build())
                 .build();
     }
 
@@ -24,11 +25,7 @@ public final class ProcessMapper {
                 .id(entity.getId())
                 .title(entity.getTitle())
                 .subtitle(entity.getSubtitle())
-                .description(entity.getDescription())
-                .deletedAt(entity.getDeletedAt())
-                .createdAt(entity.getCreatedAt())
-                .updatedAt(entity.getUpdatedAt())
-                .userName(entity.getUser().getName()).build();
+                .description(entity.getDescription()).build();
     }
 
     public static List<ProcessResponseDTO> entitiesToResponse(List<Process> entities) {
@@ -37,5 +34,11 @@ public final class ProcessMapper {
         entities.forEach(entity -> items.add(entityToResponse(entity)));
 
         return items;
+    }
+
+    public static ProcessPageableResponseDTO pageableMapToResonse(Map<String, Object> map) {
+        ObjectMapper mapper = new ObjectMapper();
+
+        return mapper.convertValue(map, ProcessPageableResponseDTO.class);
     }
 }

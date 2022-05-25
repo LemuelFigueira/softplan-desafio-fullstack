@@ -22,8 +22,6 @@ public class ProcessResponseDTO {
 
     private String description;
 
-    private String userName;
-
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime deletedAt;
 

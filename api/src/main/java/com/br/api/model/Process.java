@@ -26,8 +26,4 @@ public class Process extends BaseEntity {
     private String subtitle;
 
     private String description;
-
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_process_user"))
-    private User user;
 }

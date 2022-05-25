@@ -16,6 +16,4 @@ public class ProcessRequestDTO {
     private String subtitle;
 
     private String description;
-
-    private Long userId;
 }
