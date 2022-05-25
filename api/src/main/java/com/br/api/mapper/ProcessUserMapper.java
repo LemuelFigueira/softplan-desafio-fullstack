@@ -1,6 +1,7 @@
 package com.br.api.mapper;
 
 import com.br.api.dto.request.ProcessUserRequestDTO;
+import com.br.api.dto.response.ProcessResponseDTO;
 import com.br.api.dto.response.ProcessUserResponseDTO;
 import com.br.api.model.Process;
 import com.br.api.model.ProcessUser;
@@ -18,6 +19,19 @@ public final class ProcessUserMapper {
                 .build();
     }
 
+    public static ArrayList<ProcessResponseDTO> entitiesToProcessResponse(List<ProcessUser> entities) {
+        var items = new ArrayList<ProcessResponseDTO>();
+
+        entities.forEach(entity -> items.add(ProcessResponseDTO.builder()
+                .id(entity.getProcess().getId())
+                .title(entity.getProcess().getTitle())
+                .subtitle(entity.getProcess().getSubtitle())
+                .description(entity.getProcess().getDescription())
+                .build()));
+
+        return items;
+    }
+
     public static List<ProcessUserResponseDTO> entitiesToResponse(List<ProcessUser> entities) {
         var items = new ArrayList<ProcessUserResponseDTO>();
 
@@ -26,9 +40,6 @@ public final class ProcessUserMapper {
                 .processTitle(entity.getProcess().getTitle())
                 .userName(entity.getUser().getName())
                 .userId(entity.getUser().getId())
-                .createdAt(entity.getUser().getCreatedAt())
-                .updatedAt(entity.getUser().getUpdatedAt())
-                .deletedAt(entity.getUser().getDeletedAt())
                 .build()));
 
         return items;
