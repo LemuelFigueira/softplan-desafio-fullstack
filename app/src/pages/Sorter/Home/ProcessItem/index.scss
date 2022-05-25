@@ -1,0 +1,63 @@
+.container-sorter {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 0.5fr 1fr 1fr 1.5fr;
+    grid-auto-flow: row dense;
+    grid-auto-rows: min-content;
+    grid-template-areas:
+        "id id action"
+        "title title title"
+        "subtitle subtitle subtitle"
+        "description description description";
+
+    padding: 0;
+    margin: 0;
+    gap: 1px;
+
+    width: 100%;
+
+    @media (min-width: 768px) {
+        grid-template-columns: auto 2fr 4.5fr 4.5fr auto;
+        grid-template-rows: 1fr;
+        grid-template-areas: "id title subtitle description action";
+
+        align-items: start;
+
+        gap: 1rem;
+        width: 100%;
+
+        #action {
+            align-self: center;
+        }
+    }
+
+    #id {
+        grid-area: id;
+        span {
+            max-width: 100px;
+        }
+    }
+
+    #title {
+        grid-area: title;
+        span {
+            max-width: 100%;
+        }
+    }
+
+    #subtitle {
+        grid-area: subtitle;
+    }
+
+    #description {
+        grid-area: description;
+    }
+
+    #action {
+        grid-area: action;
+    }
+
+    #action-i {
+        grid-area: action-i;
+    }
+}
